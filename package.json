@@ -1,0 +1,13 @@
+{
+  "name": "bowling-alley-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "保龄球馆球道排队与球鞋消毒周转系统（纯 Node 内置模块，零依赖）",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server.js",
+    "demo": "node --disable-warning=ExperimentalWarning server.js --demo",
+    "seed": "node --disable-warning=ExperimentalWarning seed.js --demo",
+    "test": "node --disable-warning=ExperimentalWarning --test tests/system.test.js"
+  }
+}
