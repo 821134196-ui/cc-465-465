@@ -1,0 +1,4 @@
+data/bowling.db*
+data/photos/*
+__pycache__/
+*.pyc

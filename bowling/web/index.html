@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>星瓶保龄球馆 · 排队与球鞋周转系统</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="pin">🎳</span>
+    <div>
+      <h1>星瓶保龄球馆</h1>
+      <small>球道排队 · 球鞋消毒周转 · 结账复核</small>
+    </div>
+  </div>
+  <div class="desk-switch">
+    <span>当前前台</span>
+    <button id="desk1" class="desk-btn active" data-desk="前台1">前台 1</button>
+    <button id="desk2" class="desk-btn" data-desk="前台2">前台 2</button>
+  </div>
+  <div class="clock" id="clock">--:--:--</div>
+</header>
+
+<main>
+  <!-- ============ 候场叫号 ============ -->
+  <section class="panel" id="queue-panel">
+    <div class="panel-head">
+      <h2>候场叫号</h2>
+      <div class="actions">
+        <form id="enqueue-form" class="inline-form">
+          <input name="customer_name" placeholder="顾客姓名(演示)" required>
+          <input name="size" type="number" min="1" value="2" title="人数" style="width:64px">
+          <label class="chk"><input type="checkbox" name="bumper"> 护栏</label>
+          <input name="shoe_sizes" placeholder="尺码,逗号分隔 如 38,42" style="width:170px">
+          <button type="submit" class="btn primary">取号入队</button>
+        </form>
+        <button id="call-btn" class="btn arrow">叫下一号 ▸</button>
+      </div>
+    </div>
+    <div class="demo-bar">
+      <span class="demo-label">一键样例：</span>
+      <button class="btn mini" onclick="demo('peak_queue')">高峰排队</button>
+      <button class="btn mini" onclick="demo('shoe_shortage')">球鞋缺码(45码)</button>
+      <button class="btn mini" onclick="demo('fault_switch')">故障换道</button>
+    </div>
+    <div id="callboard" class="callboard"></div>
+  </section>
+
+  <!-- ============ 球道平面图 ============ -->
+  <section class="panel">
+    <div class="panel-head">
+      <h2>球道平面图</h2>
+      <div class="legend">
+        <span class="lg free"><i></i>空闲</span>
+        <span class="lg busy"><i></i>进行中</span>
+        <span class="lg fault"><i></i>故障/暂停叫号</span>
+        <span class="lg no-bumper"><i></i>无护栏</span>
+      </div>
+    </div>
+    <div id="floor" class="floor"></div>
+    <p class="hint" id="switch-hint">换道沿同一水平排进行：故障道 → 目标道，箭头标示前后位置，已有时段的球道不可选。</p>
+  </section>
+
+  <!-- ============ 开局控制 + 进行中 ============ -->
+  <section class="panel">
+    <div class="panel-head"><h2>开局控制 · 进行中场次</h2></div>
+    <div id="sessions" class="session-list"></div>
+  </section>
+
+  <div class="two-col">
+    <!-- ============ 球鞋尺码矩阵 ============ -->
+    <section class="panel">
+      <div class="panel-head"><h2>球鞋库存（尺码矩阵）</h2>
+        <span class="sub" id="shoe-summary"></span>
+      </div>
+      <div id="shoe-matrix" class="shoe-matrix"></div>
+    </section>
+
+    <!-- ============ 消毒队列 ============ -->
+    <section class="panel">
+      <div class="panel-head"><h2>消毒队列</h2>
+        <span class="sub">归还即待消毒，完成后方可再借</span>
+      </div>
+      <div id="batches" class="batches"></div>
+    </section>
+  </div>
+
+  <!-- ============ 结账复核 ============ -->
+  <section class="panel">
+    <div class="panel-head"><h2>结账复核</h2>
+      <span class="sub">按实际局数结算 · 赔付/免单/退款须值班经理复核</span>
+    </div>
+    <div id="bills" class="bills"></div>
+  </section>
+
+  <!-- ============ 事件流 ============ -->
+  <section class="panel">
+    <div class="panel-head"><h2>异常事件记录</h2>
+      <span class="sub">过号 · 加人 · 缺码 · 卡球 · 计分器中断 · 换道 · 超局 · 鞋损</span>
+    </div>
+    <ul id="events" class="events"></ul>
+  </section>
+</main>
+
+<!-- 通用弹层 -->
+<div id="modal" class="modal hidden">
+  <div class="modal-box">
+    <h3 id="modal-title"></h3>
+    <div id="modal-body"></div>
+    <div class="modal-foot">
+      <button id="modal-cancel" class="btn">取消</button>
+      <button id="modal-ok" class="btn primary">确认</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+<script src="app.js"></script>
+</body>
+</html>
